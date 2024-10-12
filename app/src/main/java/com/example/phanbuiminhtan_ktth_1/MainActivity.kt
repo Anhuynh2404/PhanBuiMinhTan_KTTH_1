@@ -17,6 +17,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.RadioButton
 import androidx.compose.material3.Scaffold
@@ -24,11 +25,14 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.drawBehind
+import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.text.font.FontStyle
@@ -65,7 +69,7 @@ fun CurrencyConverterApp() {
         modifier = Modifier.fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        TopAppBar(
+        CenterAlignedTopAppBar(
             title = {
                 Text(
                     text = "Chuyển đổi ngoại tệ",
@@ -73,7 +77,11 @@ fun CurrencyConverterApp() {
                     fontSize = 24.sp
                 )
             },
-            modifier = Modifier.fillMaxWidth().padding(start = 65    .dp)
+            colors = TopAppBarDefaults.topAppBarColors(
+                containerColor = Color(0xFF92FAF2)
+            ),
+            modifier = Modifier.fillMaxWidth(),
+
         )
 
         Text(
@@ -112,37 +120,49 @@ fun CurrencyConverterApp() {
             }
         }
 
-        Row(modifier = Modifier.fillMaxWidth()) {
-            Text(text = "VN Đồng: ", fontSize = 20 .sp, color = Color.Green, fontWeight = FontWeight.Bold, modifier = Modifier.weight(1f))
+        Row(
+            modifier = Modifier.fillMaxWidth().padding(start = 5 .dp),
+            horizontalArrangement = Arrangement.Center,
+            verticalAlignment = Alignment.Bottom
+        ) {
+            Text(text = "VN Đồng: ", fontSize = 22 .sp, color = Color.Green, fontWeight = FontWeight.Bold, modifier = Modifier.weight(1f))
             TextField(
                 value = vnDong,
                 onValueChange = { vnDong = it },
                 modifier = Modifier
-                    .weight(2f)
-                    .border(BorderStroke(1.dp, Color.Gray), shape = RectangleShape),
+                    .weight(2f).padding(end = 6.dp),
                 colors = TextFieldDefaults.textFieldColors(
+                    containerColor = Color.Transparent,
+                    unfocusedIndicatorColor = Color.Gray,
+                    focusedIndicatorColor = Color.Blue,
+                ),
+                singleLine = true,
 
-                )
             )
         }
 
 
-        Row(modifier = Modifier.fillMaxWidth()) {
-            Text(text = "Ngoại tệ", fontSize = 20 .sp, color = Color.Green, fontWeight = FontWeight.Bold ,modifier = Modifier.weight(1f))
+        Row(
+            modifier = Modifier.fillMaxWidth().padding(top = 6 .dp, start = 5.dp),
+            horizontalArrangement = Arrangement.Center,
+            verticalAlignment = Alignment.Bottom
+        ) {
+            Text(text = "Ngoại tệ: ", fontSize = 22 .sp, color = Color.Green, fontWeight = FontWeight.Bold ,modifier = Modifier.weight(1f))
             TextField(
                 value = foreignCurrency,
                 onValueChange = { foreignCurrency = it },
                 modifier = Modifier
-                    .weight(2f)
-                    .border(BorderStroke(1.dp, Color.Gray), shape = RectangleShape),
+                    .weight(2f).padding(end = 6.dp),
                 colors = TextFieldDefaults.textFieldColors(
-
-                )
+                    containerColor = Color.Transparent,
+                    unfocusedIndicatorColor = Color.Gray,
+                    focusedIndicatorColor = Color.Blue,
+                ),
             )
         }
 
         Row(
-            modifier = Modifier.fillMaxWidth(),
+            modifier = Modifier.fillMaxWidth().padding(top = 5.dp),
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
             Button(
@@ -196,7 +216,6 @@ fun CurrencyConverterApp() {
                 vnDong = ""
                 foreignCurrency = ""
             },
-            //colors = ButtonDefaults.buttonColors(backgroundColor = Color.Gray),
             modifier = Modifier.padding(5.dp).fillMaxWidth(),
             shape = RectangleShape
         ) {
